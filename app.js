@@ -12,11 +12,11 @@ const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
-const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
-const reviewRouter = require('./routes/reviewRoutes');
-const bookingRouter = require('./routes/bookingRoutes');
-const bookingController = require('./controllers/bookingController');
+const expenseRouter = require('./routes/expenseRoutes');
+const purchaseRouter = require('./routes/purchaseRoutes');
+const saleRouter = require('./routes/saleRoutes');
+// const saleController = require('./controllers/saleController');
 const viewRouter = require('./routes/viewRoutes');
 
 // Start express app
@@ -52,12 +52,6 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-app.post(
-  '/webhook',
-  express.raw({ type: 'application/json' }),
-  bookingController.webhookCheckout
-);
-
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
@@ -87,10 +81,10 @@ app.use(compression());
 
 // 3) ROUTES
 app.use('/', viewRouter);
-app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/expenses', expenseRouter);
 app.use('/api/v1/users', userRouter);
-app.use('/api/v1/reviews', reviewRouter);
-app.use('/api/v1/bookings', bookingRouter);
+app.use('/api/v1/purchases', purchaseRouter);
+app.use('/api/v1/sales', saleRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
