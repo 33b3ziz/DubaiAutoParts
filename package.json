@@ -1,7 +1,7 @@
 {
-  "name": "natours",
+  "name": "Dubai Auto Parts",
   "version": "1.0.0",
-  "description": "learning node js ",
+  "description": "Dubai Auto Parts Accounting",
   "main": "app.js",
   "scripts": {
     "start": "node server.js",

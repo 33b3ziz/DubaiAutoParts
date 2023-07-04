@@ -6,19 +6,19 @@ const router = express.Router();
 
 router.use(authController.protect);
 
-router.get('/checkout-session/:tourId', saleController.getCheckoutSession);
+// router.get('/checkout-session/:tourId', saleController.getCheckoutSession);
 
-router.use(authController.restrictTo('admin', 'lead-guide'));
+// router.use(authController.restrictTo('admin', 'lead-guide'));
 
-router
-  .route('/')
-  .get(saleController.getAllBookings)
-  .post(saleController.createBooking);
+// router
+//   .route('/')
+//   .get(saleController.getAllBookings)
+//   .post(saleController.createBooking);
 
-router
-  .route('/:id')
-  .get(saleController.getBooking)
-  .patch(saleController.updateBooking)
-  .delete(saleController.deleteBooking);
+// router
+//   .route('/:id')
+//   .get(saleController.getBooking)
+//   .patch(saleController.updateBooking)
+//   .delete(saleController.deleteBooking);
 
 module.exports = router;

@@ -7,18 +7,34 @@ const expenseSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  details: {
-    name: {
-      type: String,
-      required: [true, 'A expense must have a name'],
+  details: [
+    {
+      name: {
+        type: String,
+        required: [true, 'A expense must have a name'],
+      },
+      quantity: {
+        type: Number,
+        required: [true, 'A expense must have a quantity'],
+        default: 0,
+      },
+      price: {
+        type: Number,
+        required: [true, 'A expense must have a price'],
+        default: 0,
+      },
+      total: Number,
     },
-    quantity: {
-      type: Number,
-      required: [true, 'A expense must have a quantity'],
-      default: 0,
-    },
-  },
+  ],
 });
+
+// Calculate total for each expense
+expenseSchema.pre('save', function (next) {
+  this.total = this.quantity * this.price;
+  next();
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 // expenseSchema.pre('save', function (next) {
 //   this.slug = slugify(this.name, { lower: true });

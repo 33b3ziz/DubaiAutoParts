@@ -1,5 +1,5 @@
-const Tour = require('../models/expenseModel');
 const User = require('../models/userModel');
+const Expense = require('../models/expenseModel');
 const Purchase = require('../models/purchaseModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -13,16 +13,16 @@ exports.alerts = (req, res, next) => {
 };
 
 exports.getOverview = catchAsync(async (req, res) => {
-  const tours = await Tour.find();
+  const tours = await Expense.find();
 
   res.status(200).render('overview', {
-    title: 'All Tours',
+    title: 'All Expenses',
     tours,
   });
 });
 
-exports.getTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findOne({ slug: req.params.slug }).populate({
+exports.getExpense = catchAsync(async (req, res, next) => {
+  const tour = await Expense.findOne({ slug: req.params.slug }).populate({
     path: 'reviews',
     fields: 'review rating user',
   });
@@ -32,7 +32,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
   }
 
   res.status(200).render('tour', {
-    title: `${tour.name} Tour`,
+    title: `${tour.name} Expense`,
     tour,
   });
 });
@@ -55,14 +55,14 @@ exports.getAccount = (req, res) => {
   });
 };
 
-exports.getMyTours = catchAsync(async (req, res, next) => {
+exports.getMyExpenses = catchAsync(async (req, res, next) => {
   const bookings = await Purchase.find({ user: req.user.id });
 
   const tourIDs = bookings.map((el) => el.tour);
-  const tours = await Tour.find({ _id: { $in: tourIDs } });
+  const tours = await Expense.find({ _id: { $in: tourIDs } });
 
   res.status(200).render('overview', {
-    title: 'My Tours',
+    title: 'My Expenses',
     tours,
   });
 });

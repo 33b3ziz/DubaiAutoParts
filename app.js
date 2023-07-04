@@ -12,12 +12,13 @@ const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
+const viewRouter = require('./routes/viewRoutes');
 const userRouter = require('./routes/userRoutes');
 const expenseRouter = require('./routes/expenseRoutes');
 const purchaseRouter = require('./routes/purchaseRoutes');
 const saleRouter = require('./routes/saleRoutes');
+const itemRouter = require('./routes/itemRoutes');
 // const saleController = require('./controllers/saleController');
-const viewRouter = require('./routes/viewRoutes');
 
 // Start express app
 const app = express();
@@ -81,10 +82,11 @@ app.use(compression());
 
 // 3) ROUTES
 app.use('/', viewRouter);
-app.use('/api/v1/expenses', expenseRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/expenses', expenseRouter);
 app.use('/api/v1/purchases', purchaseRouter);
 app.use('/api/v1/sales', saleRouter);
+app.use('/api/v1/items', itemRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

@@ -45,7 +45,7 @@ body {
 
 .main {
   background-color: #f7f7f7;
-  padding: 8rem 6rem;
+  padding: 5rem 6rem;
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -323,16 +323,16 @@ body {
   }
 }
 .header__logo img {
-  height: 3.5rem;
+  height: 7rem;
 }
-@media only screen and (max-width: 62.5em) {
+/* @media only screen and (max-width: 62.5em) {
   .header__logo {
     -webkit-box-ordinal-group: 0;
     -ms-flex-order: -1;
     order: -1;
     margin-bottom: 1.5rem;
   }
-}
+} */
 
 .section-header {
   position: relative;
@@ -796,7 +796,7 @@ body {
 
 .footer {
   background-color: #f7f7f7;
-  padding: 6rem 4rem 3rem 4rem;
+  padding: 2rem 4rem 3rem 4rem;
   font-size: 1.4rem;
   display: grid;
   grid-template-columns: auto auto;
@@ -823,7 +823,7 @@ body {
   }
 }
 .footer__logo img {
-  height: 3rem;
+  height: 8rem;
 }
 .footer__nav {
   list-style: none;
@@ -1074,8 +1074,8 @@ body {
   max-width: 120rem;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 7rem;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 5rem;
 }
 
 .card {
@@ -1116,8 +1116,8 @@ body {
     from(#7dd56f),
     to(#28b487)
   );
-  background-image: linear-gradient(to right bottom, #7dd56f, #28b487);
-  opacity: 0.7;
+  background-image: linear-gradient(to right bottom);
+  opacity: 0;
 }
 .card__picture-img {
   -o-object-fit: cover;
@@ -1274,6 +1274,7 @@ body {
 }
 
 .form__group:not(:last-child) {
+  display: block;
   margin-bottom: 2.5rem;
 }
 
@@ -1282,6 +1283,14 @@ body {
   font-size: 1.6rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
+}
+
+.form-user-data {
+  display: block;
+}
+
+.form-user-password {
+  display: block;
 }
 
 .form__photo-upload {
