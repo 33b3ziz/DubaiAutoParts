@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
 
 const purchaseSchema = new mongoose.Schema({
+  purchaseNumber: {
+    type: Number,
+    unique: true,
+  },
   date: {
     type: Date,
     default: Date.now(),
   },
-  details: [
+  items: [
     {
       name: {
         type: String,
@@ -19,23 +23,27 @@ const purchaseSchema = new mongoose.Schema({
       quantity: {
         type: Number,
         required: [true, 'A purchase must have a quantity'],
-        default: 0,
+        default: 1,
       },
       price: {
         type: Number,
         required: [true, 'A purchase must have a price'],
         default: 0,
       },
-      total: Number,
     },
   ],
+  total: {
+    type: Number,
+    required: [true, 'A expense must have a total'],
+    default: 0,
+  },
 });
 
-// Calculate total for each expense
-purchaseSchema.pre('save', function (next) {
-  this.total = this.quantity * this.price;
-  next();
-});
+// // Calculate total for each expense
+// purchaseSchema.pre('save', function (next) {
+//   this.total = this.quantity * this.price;
+//   next();
+// });
 
 // purchaseSchema.pre(/^find/, function (next) {
 //   this.populate('user').populate({

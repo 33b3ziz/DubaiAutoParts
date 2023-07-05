@@ -3,11 +3,15 @@ const mongoose = require('mongoose');
 // const validator = require('validator');
 
 const expenseSchema = new mongoose.Schema({
+  expenseNumber: {
+    type: Number,
+    unique: true,
+  },
   date: {
     type: Date,
     default: Date.now(),
   },
-  details: [
+  items: [
     {
       name: {
         type: String,
@@ -16,16 +20,20 @@ const expenseSchema = new mongoose.Schema({
       quantity: {
         type: Number,
         required: [true, 'A expense must have a quantity'],
-        default: 0,
+        default: 1,
       },
       price: {
         type: Number,
         required: [true, 'A expense must have a price'],
         default: 0,
       },
-      total: Number,
     },
   ],
+  total: {
+    type: Number,
+    required: [true, 'A expense must have a total'],
+    default: 0,
+  },
 });
 
 // Calculate total for each expense

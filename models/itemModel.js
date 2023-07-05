@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
-  item: {
+  name: {
     type: String,
     required: [true, 'Item can not be empty!'],
   },
@@ -10,7 +10,7 @@ const itemSchema = new mongoose.Schema({
     enum: ['Malibu', 'Equinox'],
     required: [true, 'Spare Part can not be empty! Must belong to a Car'],
   },
-  stock: {
+  quantity: {
     type: Number,
     default: 0,
   },

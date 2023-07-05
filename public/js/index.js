@@ -1,9 +1,7 @@
 /* eslint-disable */
 import '@babel/polyfill';
-import { displayMap } from './mapbox';
 import { login, signup, logout } from './login';
 import { updateSettings } from './updateSettings';
-import { bookTour } from './stripe';
 import { showAlert } from './alerts';
 
 const mapBox = document.getElementById('map');

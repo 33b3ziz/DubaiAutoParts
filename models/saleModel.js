@@ -9,7 +9,7 @@ const saleSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  details: [
+  items: [
     {
       name: {
         type: String,
@@ -30,10 +30,14 @@ const saleSchema = new mongoose.Schema({
         required: [true, 'A sale must have a price'],
         default: 0,
       },
-      total: Number,
       profit: Number,
     },
   ],
+  total: {
+    type: Number,
+    required: [true, 'A expense must have a total'],
+    default: 0,
+  },
 });
 
 // Calculate total for each expense
