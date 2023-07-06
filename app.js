@@ -82,6 +82,7 @@ app.use(compression());
 
 // 3) ROUTES
 app.use('/', viewRouter);
+
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/expenses', expenseRouter);
 app.use('/api/v1/purchases', purchaseRouter);
