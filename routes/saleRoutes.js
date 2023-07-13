@@ -2,23 +2,20 @@ const express = require('express');
 const saleController = require('../controllers/saleController');
 const authController = require('../controllers/authController');
 
-const router = express.Router();
-
-router.use(authController.protect);
-
-// router.get('/checkout-session/:tourId', saleController.getCheckoutSession);
+const router = express.Router({ mergeParams: true });
 
 // router.use(authController.restrictTo('admin', 'lead-guide'));
+router.use(authController.protect);
 
-// router
-//   .route('/')
-//   .get(saleController.getAllBookings)
-//   .post(saleController.createBooking);
+router.route('/last').get(saleController.readNumOfLastInvoice);
 
-// router
-//   .route('/:id')
-//   .get(saleController.getBooking)
-//   .patch(saleController.updateBooking)
-//   .delete(saleController.deleteBooking);
+router.route('/invoice').post(saleController.createInvoice);
+
+router
+  .route('/invoice/:invoiceNumber')
+  .get(saleController.readInvoice)
+  .patch(saleController.updateInvoice);
+
+router.route('/:from/:to').get(saleController.readAllInvoices);
 
 module.exports = router;

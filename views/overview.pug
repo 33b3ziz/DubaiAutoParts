@@ -9,9 +9,9 @@ block content
             .card__picture-overlay &nbsp;
             img.card__picture-img(src=`img/overview/items.jpg`, alt=`items`)
           h3.heading-tertirary
-            span= "المخزون"
+            span= "Inventory"
         .card__footer
-          a.btn.btn--green.btn--small(href=`/items`) Details
+          a.btn.btn--green.btn--small(href=`/items`) Items
 
       .card
         .card__header
@@ -19,9 +19,10 @@ block content
             .card__picture-overlay &nbsp;
             img.card__picture-img(src=`img/overview/sales.jpg`, alt=`sales`)
           h3.heading-tertirary
-            span= "المبيعات"
+            span= "Sales"
         .card__footer
-          a.btn.btn--green.btn--small(href=`/sales`) Details
+          a.btn.btn--green.btn--small(href=`/sales/report`) Report
+          a.btn.btn--green.btn--small(href=`/sales`) Invoice
 
       .card
         .card__header
@@ -29,9 +30,10 @@ block content
             .card__picture-overlay &nbsp;
             img.card__picture-img(src=`img/overview/purchases.jpg`, alt=`purchases`)
           h3.heading-tertirary
-            span= "المشتريات"
+            span= "Purchases"
         .card__footer
-          a.btn.btn--green.btn--small(href='/purchases') Details
+          a.btn.btn--green.btn--small(href='/purchases/report') Report
+          a.btn.btn--green.btn--small(href='/purchases') Invoice
 
       .card
         .card__header
@@ -39,6 +41,7 @@ block content
             .card__picture-overlay &nbsp;
             img.card__picture-img(src=`img/overview/expenses.jpg`, alt=`expenses`)
           h3.heading-tertirary
-            span= "المصروفات"
+            span= "Expenses"
         .card__footer
-          a.btn.btn--green.btn--small(href=`/expenses`) Details
+          a.btn.btn--green.btn--small(href=`/expenses/report`) Report
+          a.btn.btn--green.btn--small(href=`/expenses`) Invoice

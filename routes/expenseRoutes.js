@@ -1,52 +1,18 @@
 const express = require('express');
 const expenseController = require('../controllers/expenseController');
 const authController = require('../controllers/authController');
-// const purchaseRouter = require('./purchaseRoutes');
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
-// router.param('id', expenseController.checkID);
+// router.use(authController.restrictTo('admin', 'lead-guide'));
+router.use(authController.protect);
 
-// router.use('/:tourId/reviews', reviewRouter);
+router.route('/last').get(expenseController.readNumOfLastInvoice);
 
-// router.route('/top-5-cheap');
-// // .get(expenseController.aliasTopTours, expenseController.getAllTours);
-// // router.route('/tour-stats').get(expenseController.getTourStats);
-// router
-//   .route('/monthly-plan/:year')
-//   .get(
-//     authController.protect,
-//     authController.restrictTo('admin', 'lead-guide'),
-//     expenseController.getMonthlyPlan
-//   );
+router.route('/invoice').post(expenseController.createInvoice);
 
-// router
-//   .route('/tours-within/:distance/center/:latlng/unit/:unit')
-//   .get(expenseController.getToursWithin);
+router.route('/invoice/:invoiceNumber').get(expenseController.readInvoice);
 
-// router
-//   .route('/')
-//   .get(expenseController.getAllTours)
-//   .post(
-//     authController.protect,
-//     authController.restrictTo('admin', 'lead-guide'),
-//     expenseController.createTour
-//   );
-
-// router
-//   .route('/:id')
-//   .get(authController.protect, expenseController.getTour)
-//   .patch(
-//     authController.protect,
-//     authController.restrictTo('admin', 'lead-guide'),
-//     expenseController.uploadTourImages,
-//     expenseController.resizeTourImages,
-//     expenseController.updateTour
-//   )
-//   .delete(
-//     authController.protect,
-//     authController.restrictTo('admin', 'lead-guide'),
-//     expenseController.deleteTour
-//   );
+router.route('/:from/:to').get(expenseController.readAllInvoices);
 
 module.exports = router;

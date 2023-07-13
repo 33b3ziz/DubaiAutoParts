@@ -1,76 +1,86 @@
 const mongoose = require('mongoose');
 
 const saleSchema = new mongoose.Schema({
+  number: {
+    type: Number,
+    unique: true,
+    required: [true, 'A Sales Invoice must have a Number'],
+  },
   date: {
     type: Date,
     default: Date.now(),
   },
-  discount: {
+  seller: {
+    type: String,
+    enum: ['Tamer', 'Wissam'],
+    required: [true, 'A Sales Invoice must have a Seller'],
+  },
+  total: {
     type: Number,
+    required: [true, 'A Sales Invoice must have a Total'],
+    default: 0,
+  },
+  totalProfit: {
+    type: Number,
+    required: [true, 'A Sales Invoice must have a Total Profit'],
     default: 0,
   },
   items: [
     {
       name: {
         type: String,
-        required: [true, 'A sale must have a name'],
+        required: [true, 'A Spare Part must have a Name'],
       },
       car: {
         type: String,
-        enum: ['Malibu', 'Equinox'],
-        required: [true, 'A Spare Part must have a car type'],
+        required: [true, 'A Spare Part must have a Car Type'],
       },
       quantity: {
         type: Number,
-        required: [true, 'A sale must have a quantity'],
+        required: [true, 'A Spare Part must have a Quantity'],
         default: 0,
+        validate: {
+          validator: function (val) {
+            return val <= this.stockQuantity && val >= 0;
+          },
+          message: 'Quantity should be smaller than or equal stock quantity',
+        },
       },
       price: {
         type: Number,
-        required: [true, 'A sale must have a price'],
+        required: [true, 'A Spare Part must have a Price'],
+        default: 0,
+        validate: {
+          validator: function (val) {
+            return val > this.averagePrice;
+          },
+          message: 'Price should be bigger than average price',
+        },
+      },
+      total: {
+        type: Number,
+        required: [true, 'A Spare Part must have a Total'],
         default: 0,
       },
-      profit: Number,
+      stockQuantity: {
+        type: Number,
+        default: 0,
+      },
+      averagePrice: {
+        type: Number,
+        default: 0,
+      },
+      stockTotal: {
+        type: Number,
+        default: 0,
+      },
+      profit: {
+        type: Number,
+        default: 0,
+      },
     },
   ],
-  total: {
-    type: Number,
-    required: [true, 'A expense must have a total'],
-    default: 0,
-  },
 });
-
-// Calculate total for each expense
-saleSchema.pre('save', function (next) {
-  this.total = this.quantity * this.price;
-  next();
-});
-
-saleSchema.pre('save', function (next) {
-  this.profit = this.total - this.quantity * this.price;
-  next();
-});
-
-// saleSchema.pre(/^find/, function (next) {
-//   this.populate({
-//     path: 'user',
-//     select: 'name photo',
-//   });
-//   next();
-// });
-
-// saleSchema.post('save', function () {
-//   this.constructor.calcAverageRatings(this.tour);
-// });
-
-// saleSchema.pre(/^findOneAnd/, async function (next) {
-//   this.r = await this.findOne();
-//   next();
-// });
-
-// saleSchema.post(/^findOneAnd/, async function () {
-//   await this.r.constructor.calcAverageRatings(this.r.tour);
-// });
 
 const Sale = mongoose.model('Sale', saleSchema);
 

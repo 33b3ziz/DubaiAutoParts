@@ -1,75 +1,61 @@
 const mongoose = require('mongoose');
-// const slugify = require('slugify');
-// const validator = require('validator');
 
 const expenseSchema = new mongoose.Schema({
-  expenseNumber: {
+  number: {
     type: Number,
     unique: true,
+    required: [true, 'A Expenses Invoice must have a Number'],
   },
   date: {
     type: Date,
     default: Date.now(),
   },
+  spender: {
+    type: String,
+    enum: ['Tamer', 'Wissam'],
+    required: [true, 'A Expenses Invoice must have a Buyer'],
+  },
+  total: {
+    type: Number,
+    required: [true, 'A Expenses Invoice must have a Total'],
+    default: 0,
+  },
   items: [
     {
       name: {
         type: String,
-        required: [true, 'A expense must have a name'],
+        required: [true, 'A Expense must have a Name'],
       },
       quantity: {
         type: Number,
-        required: [true, 'A expense must have a quantity'],
-        default: 1,
+        required: [true, 'A Expense must have a Quantity'],
+        default: 0,
+        validate: {
+          validator: function (val) {
+            return val > 0;
+          },
+          message: 'Quantity should be bigger than zero',
+        },
       },
       price: {
         type: Number,
-        required: [true, 'A expense must have a price'],
+        required: [true, 'A Expense must have a Price'],
+        default: 0,
+        validate: {
+          validator: function (val) {
+            return val > 0;
+          },
+          message: 'Price should be bigger than zero',
+        },
+      },
+      total: {
+        type: Number,
+        required: [true, 'A Expense must have a Total'],
         default: 0,
       },
     },
   ],
-  total: {
-    type: Number,
-    required: [true, 'A expense must have a total'],
-    default: 0,
-  },
 });
-
-// Calculate total for each expense
-expenseSchema.pre('save', function (next) {
-  this.total = this.quantity * this.price;
-  next();
-});
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
-// expenseSchema.pre('save', function (next) {
-//   this.slug = slugify(this.name, { lower: true });
-//   next();
-// });
-
-// expenseSchema.pre(/^find/, function (next) {
-//   this.find({ secretExpense: { $ne: true } });
-//   this.start = Date.now();
-//   this.populate({
-//     path: 'guides',
-//     select: '-__v -passwordChangedAt',
-//   });
-//   next();
-// });
-
-// expenseSchema.post(/^find/, function (docs, next) {
-//   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
-//   next();
-// });
-
-// AGGREGATION MIDDLEWARE
-// expenseSchema.pre('aggregate', function (next) {
-//   this.pipeline().unshift({ $match: { secretExpense: { $ne: true } } });
-//   console.log(this.pipeline());
-//   next();
-// });
 
 const Expense = mongoose.model('Expense', expenseSchema);
 

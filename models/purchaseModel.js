@@ -1,57 +1,65 @@
 const mongoose = require('mongoose');
 
 const purchaseSchema = new mongoose.Schema({
-  purchaseNumber: {
+  number: {
     type: Number,
     unique: true,
+    required: [true, 'A Purchases Invoice must have a Number'],
   },
   date: {
     type: Date,
     default: Date.now(),
   },
+  buyer: {
+    type: String,
+    enum: ['Tamer', 'Wissam'],
+    required: [true, 'A Purchases Invoice must have a Buyer'],
+  },
+  total: {
+    type: Number,
+    required: [true, 'A Purchases Invoice must have a Total'],
+    default: 0,
+  },
   items: [
     {
       name: {
         type: String,
-        required: [true, 'A purchase must have a name'],
+        required: [true, 'A Spare Part must have a Name'],
       },
       car: {
         type: String,
-        enum: ['Malibu', 'Equinox'],
-        required: [true, 'A Spare Part must have a car type'],
+        required: [true, 'A Spare Part must have a Car Type'],
       },
       quantity: {
         type: Number,
-        required: [true, 'A purchase must have a quantity'],
-        default: 1,
+        required: [true, 'A Spare Part must have a Quantity'],
+        default: 0,
+        validate: {
+          validator: function (val) {
+            return val > 0;
+          },
+          message: 'Quantity should be bigger than zero',
+        },
       },
       price: {
         type: Number,
-        required: [true, 'A purchase must have a price'],
+        required: [true, 'A Spare Part must have a Price'],
+        default: 0,
+        validate: {
+          validator: function (val) {
+            return val > 0;
+          },
+          message: 'Price should be bigger than zero',
+        },
+      },
+      total: {
+        type: Number,
+        required: [true, 'A Spare Part must have a Total'],
         default: 0,
       },
     },
   ],
-  total: {
-    type: Number,
-    required: [true, 'A expense must have a total'],
-    default: 0,
-  },
 });
-
-// // Calculate total for each expense
-// purchaseSchema.pre('save', function (next) {
-//   this.total = this.quantity * this.price;
-//   next();
-// });
-
-// purchaseSchema.pre(/^find/, function (next) {
-//   this.populate('user').populate({
-//     path: 'tour',
-//     select: 'name',
-//   });
-//   next();
-// });
 
 const Purchase = mongoose.model('Purchase', purchaseSchema);
 

@@ -4,27 +4,19 @@ const authController = require('../controllers/authController');
 
 const router = express.Router({ mergeParams: true });
 
+// router.use(authController.restrictTo('admin', 'lead-guide'));
 router.use(authController.protect);
 
-// router
-//   .route('/')
-//   .get(purchaseController.getAllReviews)
-//   .post(
-//     authController.restrictTo('user'),
-//     purchaseController.setTourUserIds,
-//     purchaseController.createReview
-//   );
+router.route('/last').get(purchaseController.readNumOfLastInvoice);
 
-// router
-//   .route('/:id')
-//   .get(purchaseController.getReview)
-//   .patch(
-//     authController.restrictTo('user', 'admin'),
-//     purchaseController.updateReview
-//   )
-//   .delete(
-//     authController.restrictTo('user', 'admin'),
-//     purchaseController.deleteReview
-//   );
+router.route('/invoice').post(purchaseController.createInvoice);
+
+router.route('/invoice/:invoiceNumber').get(purchaseController.readInvoice);
+
+router.route('/:from/:to').get(purchaseController.readAllInvoices);
 
 module.exports = router;
+
+// router
+//   .route('/tours-within/:distance/center/:latlng/unit/:unit')
+//   .get(expenseController.getToursWithin);

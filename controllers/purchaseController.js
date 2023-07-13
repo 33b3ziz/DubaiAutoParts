@@ -1,12 +1,39 @@
 const Purchase = require('../models/purchaseModel');
-// const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
-const factory = require('./handlerFactory');
 
-exports.getCheckoutSession = catchAsync(async (req, res, next) => {});
+// Create Invoice
+exports.createInvoice = catchAsync(async (req, res, next) => {
+  await Purchase.create(req.body);
+  res.status(201).json({
+    status: 'success',
+  });
+});
 
-exports.createBooking = factory.createOne(Purchase);
-exports.getBooking = factory.getOne(Purchase);
-exports.getAllBookings = factory.getAll(Purchase);
-exports.updateBooking = factory.updateOne(Purchase);
-exports.deleteBooking = factory.deleteOne(Purchase);
+// Get Invoice
+exports.readInvoice = catchAsync(async (req, res, next) => {
+  const doc = await Purchase.findOne({ number: req.params.invoiceNumber });
+  res.status(201).json({
+    status: 'success',
+    data: doc,
+  });
+});
+
+// Get All Invoice
+exports.readAllInvoices = catchAsync(async (req, res, next) => {
+  const doc = await Purchase.find();
+  res.status(201).json({
+    status: 'success',
+    data: doc,
+  });
+});
+
+// Get Number Of Last Invoice
+exports.readNumOfLastInvoice = catchAsync(async (req, res, next) => {
+  const doc = await Purchase.findOne({}, { number: 1 }).sort({
+    number: -1,
+  });
+  res.status(201).json({
+    status: 'success',
+    data: doc,
+  });
+});

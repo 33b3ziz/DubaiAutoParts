@@ -16,5 +16,3 @@ router.get('/sales', authController.protect, viewsController.getSale);
 router.get('/items', authController.protect, viewsController.getItem);
 
 module.exports = router;
-
-// router.get('/signup', viewsController.getSignupForm);

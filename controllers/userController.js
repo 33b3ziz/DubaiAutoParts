@@ -20,6 +20,29 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
+// Get User Wallet
+exports.getWallet = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ name: req.params.user }, { wallet: 1 });
+
+  res.status(200).json({
+    status: 'success',
+    data: user,
+  });
+});
+
+// Update User Wallet
+exports.updateWallet = catchAsync(async (req, res, next) => {
+  const wallet = await User.updateOne(
+    { name: req.params.user },
+    { wallet: req.body.wallet }
+  );
+
+  res.status(200).json({
+    status: 'success',
+    data: wallet,
+  });
+});
+
 exports.uploadUserPhoto = upload.single('photo');
 
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
@@ -84,8 +107,24 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getAllUsers = catchAsync(async (req, res, next) => {
+  // let filter = {};
+  // if (req.params.tourId) filter = { tour: req.params.tourId };
+  // res.status(200).json({
+  //   status: 'success',
+  //   results: doc.length,
+  //   data: {
+  //     data: doc,
+  //   },
+  // });
+});
+
+exports.createUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not defined! Please use /signup instead',
+  });
+};
 exports.getUser = factory.getOne(User);
 exports.updateUser = factory.updateOne(User);
 exports.deleteUser = factory.deleteOne(User);
-
-exports.getAllUsers = factory.getAll(User);

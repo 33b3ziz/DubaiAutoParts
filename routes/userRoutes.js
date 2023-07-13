@@ -1,6 +1,7 @@
 const express = require('express');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
+const handlerFactory = require('../controllers/handlerFactory');
 
 const router = express.Router();
 
@@ -21,17 +22,25 @@ router.patch(
   userController.resizeUserPhoto,
   userController.updateMe
 );
+
 router.delete('/deleteMe', userController.deleteMe);
 
 router.use(authController.restrictTo('admin'));
 
-router.route('/').get(userController.getAllUsers);
-// .post(userController.createUser);
+router
+  .route('/')
+  .get(userController.getAllUsers)
+  .post(userController.createUser);
 
 router
   .route('/:id')
   .get(userController.getUser)
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
+
+router
+  .route('/wallet/:user')
+  .get(userController.getWallet)
+  .patch(userController.updateWallet);
 
 module.exports = router;
